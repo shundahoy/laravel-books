@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('book') }}
         </h2>
     </x-slot>
 
@@ -22,6 +22,7 @@
                                             <th class="py-3 px-1 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">出版</th>
                                             <th class="py-3 px-1 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">読み終わった日</th>
                                             <th class="py-3 px-1 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メモ</th>
+                                            <th class="py-3 px-1 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -34,27 +35,12 @@
                                                 <td class="py-3 px-1 border-gray-200 border-t-2 text-lg text-gray-900">{{ $book->publication }}</td>
                                                 <td class="py-3 px-1 border-gray-200 border-t-2 text-lg text-gray-900">{{ Carbon\Carbon::parse($book->reade_at)->format('Y年n月j日') }}</td>
                                                 <td class="py-3 px-1 border-gray-200 border-t-2 text-lg text-gray-900">{{ Str::limit($book->note,40,$end='...') }}</td>
+                                                <td class="py-3 px-1 border-gray-200 border-t-2 text-lg text-gray-900">
+                                                    <button onclick="location.href='/book/detail/{{ $book->id }}'" class="text-xs shadow bg-gray-500 hover:bg-gray-400 text-white px-4 py-2">詳細</button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         
-                                        <!-- <tr>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3">Pro</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3">25 Mb/s</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3">25 GB</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-                                            <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Exclusive</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">48 Mb/s</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">120 GB</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-                                        </tr> -->
                                     </tbody>
                                 </table>
                                 {{ $books->links() }}
