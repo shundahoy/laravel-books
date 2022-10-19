@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+
+use App\Http\Controllers\DB;
 
 class BookController extends Controller
 {
@@ -19,5 +22,33 @@ class BookController extends Controller
         // $books = Book::all();
         $book = Book::find($id);
         return view('book.detail', ['book' => $book]);
+    }
+
+    public function edit($id)
+    {
+        // $books = Book::all();
+        $book = Book::find($id);
+        return view('book.edit', ['book' => $book]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $book = Book::find($request->input('id'));
+            $book->name = $request->input('name');
+            $book->status = $request->input('status');
+            $book->author = $request->input('author');
+            $book->publication = $request->input('publication');
+            $book->reade_at = $request->input('reade_at');
+            $book->note = $request->input('note');
+            $book->save();
+            DB::commit();
+            return redirect('book')->with('status', '本を更新しました。');
+        } catch (\Exception $ex) {
+            DB::rollback();
+            logger($ex->getMessage());
+            return redirect('book')->withErrors($ex->getMessage());
+        }
     }
 }
