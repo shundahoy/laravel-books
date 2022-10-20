@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-
-use App\Http\Controllers\DB;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
@@ -31,7 +31,7 @@ class BookController extends Controller
         return view('book.edit', ['book' => $book]);
     }
 
-    public function update(Request $request)
+    public function update(BookRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -45,6 +45,33 @@ class BookController extends Controller
             $book->save();
             DB::commit();
             return redirect('book')->with('status', '本を更新しました。');
+        } catch (\Exception $ex) {
+            DB::rollback();
+            logger($ex->getMessage());
+            return redirect('book')->withErrors($ex->getMessage());
+        }
+    }
+    public function new()
+    {
+        return view('book.new');
+    }
+    public function create(Request $request)
+    {
+        try {
+            $book = Book::create($request->all());
+            return redirect('book')->with('status', '本を作成しました');
+        } catch (\Exception $ex) {
+            DB::rollback();
+            logger($ex->getMessage());
+            return redirect('book')->withErrors($ex->getMessage());
+        }
+    }
+
+    public function remove($id)
+    {
+        try {
+            $book = Book::find($id)->delete();
+            return redirect('book')->with('status', '本を消去');
         } catch (\Exception $ex) {
             DB::rollback();
             logger($ex->getMessage());

@@ -27,6 +27,9 @@ Route::middleware(['auth'])->prefix('book')->group(function () {
     Route::get('/detail/{id}', [BookController::class, 'detail'])->name('book.detail');
     Route::get('/edit/{id}', [BookController::class, 'edit'])->name('book.edit');
     Route::patch('/update', [BookController::class, 'update'])->name('book.update');
+    Route::get('/new', [BookController::class, 'new'])->name('book.new');
+    Route::post('/create', [BookController::class, 'create'])->name('book.create');
+    Route::delete('/remove/{id}', [BookController::class, 'remove'])->name('book.remove');
 });
 
 require __DIR__ . '/auth.php';
