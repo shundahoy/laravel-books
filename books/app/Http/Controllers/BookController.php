@@ -10,11 +10,29 @@ use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $books = Book::all();
-        $books = Book::paginate(10);
-        return view('book.index', ['books' => $books]);
+        $input = $request->all();
+        $books = Book::search($input)->orderBy('id', 'desc')->paginate(10);
+        $publications = Book::select('publication')->groupBy('publication')->pluck('publication');
+        $authors = Book::select('author')->groupBy('author')->pluck('author');
+
+        return view(
+            'book.index',
+            [
+                'books' => $books,
+                // selectboxの値
+                'publications' => $publications,
+                'authors' => $authors,
+
+                // 検索する値
+                'name' => $input['name'] ?? '',
+                'publication' => $input['publication'] ?? '',
+                'author' => $input['author'] ?? '',
+                'status' => $input['status'] ?? '',
+                'note' => $input['note'] ?? '',
+            ]
+        );
     }
 
     public function detail($id)

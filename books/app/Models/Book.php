@@ -34,4 +34,33 @@ class Book extends Model
         self::BOOK_STATUS_DONE,
         self::BOOK_STATUS_WANT_READ,
     ];
+
+    // $input = $request->only('name', 'status', 'author', 'publication', 'note');
+
+    public function scopeSearch($query, $search)
+    {
+
+        $name = $search['name'] ?? '';
+        $status = $search['status'] ?? '';
+        $author = $search['author'] ?? '';
+        $publication = $search['publication'] ?? '';
+        $note = $search['note'] ?? '';
+        $query->when($name, function ($query, $name) {
+            $query->where('name', 'like', "%$name%");
+        });
+
+        $query->when($publication, function ($query, $publication) {
+            $query->where('publication', $publication);
+        });
+
+        $query->when($note, function ($query, $note) {
+            $query->where('note', 'like', "%$note%");
+        });
+
+        $query->when($status, function ($query, $status) {
+            $query->where('status', $status);
+        });
+
+        return $query;
+    }
 }

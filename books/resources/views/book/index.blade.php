@@ -9,7 +9,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+            <div class="col-span-6 sm:col-span-3 p-2 w-48">
+                <label for="name" class="block text-sm font-medium text-gray-700">本の名前</label>
+                <input type="text" name="name" id="name" value="{{ $name }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 
                 <div class="p-6 bg-white border-b border-gray-200">

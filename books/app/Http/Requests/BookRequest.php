@@ -31,7 +31,7 @@ class BookRequest extends FormRequest
             'author' => 'max:255',
             'publication' => 'max:255',
             'note' => 'max:1000',
-            'read_at' => 'nullable|date'
+            'reade_at' => 'nullable|date'
         ];
     }
 }
